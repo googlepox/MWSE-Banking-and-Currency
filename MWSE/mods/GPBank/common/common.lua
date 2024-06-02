@@ -719,6 +719,10 @@ function common.convertLoss(diff)
                 totalBills = totalBills + bill.count
             end
         end
+        if (totalBills == 0) then
+            tes3.removeItem({reference = tes3.mobilePlayer, item = "Gold_001", count = diff, playSound = false})
+            diff = 0
+        end
         while (diff > 0 and totalBills > 0) do
             local highest = common.pickBestDenomination(diff)
             for _, currencyObj in pairs(common.counts) do
@@ -773,7 +777,7 @@ end
 function common.updateCounts()
     for _, currencyObj in pairs(common.currency) do
         for _, itemStack in pairs(tes3.mobilePlayer.inventory) do
-            if ((currencyObj.id == itemStack.object.id) and itemStack.count > 0) then
+            if ((currencyObj.id == itemStack.object.id)) then
                 common.counts[currencyObj.id].count = itemStack.count
             end
         end
@@ -819,14 +823,10 @@ end
 
 function common.exitBankMenu()
     local actualCopper = common.getActualCopper(common.totalCopper)
-    local newTotalCopper = 0
+    local newTotalCopper = tes3.getPlayerGold()
     local spareChange = 0
     local diff = common.totalCopperBefore - common.totalCopper
-    if (diff == 0) then
-        common.fixCounts()
-    end
     common.convertDiff(diff)
-    common.updateCountsOnExit()
     spareChange = (common.totalCopper - newTotalCopper) % 5
     common.totalCopperBefore = newTotalCopper
     common.totalCopper = newTotalCopper
@@ -834,9 +834,6 @@ function common.exitBankMenu()
         tes3.addItem({reference = tes3.mobilePlayer, item = "Gold_001", count = spareChange, playSound = false})
     end
     common.enterMenu()
-    if (actualCopper > 5) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = "Gold_001", count = (actualCopper - spareChange), playSound = false})
-    end
 end
 
 function common.initCounts()
@@ -846,6 +843,15 @@ function common.initCounts()
         common.counts[currencyObj.id].name = currencyObj.name
         common.counts[currencyObj.id].value = currencyObj.value
         common.counts[currencyObj.id].count = 0
+    end
+end
+
+function common.removeCoinStacks()
+    for _, itemStack in pairs(tes3.mobilePlayer.inventory) do
+        if ((string.find(itemStack.object.id, "GPBankSeptimGold_0") or string.find(itemStack.object.id, "GPBankSeptimGold_1") 
+        or string.find(itemStack.object.id, "GPBankSeptimSilver_0") or string.find(itemStack.object.id, "GPBankSeptimSilver_1") or (string.find(itemStack.object.id, "GPBankSeptimSilver_")) or (string.find(itemStack.object.id, "Dae_cursed_00"))) and itemStack.count > 0) then
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        end
     end
 end
 

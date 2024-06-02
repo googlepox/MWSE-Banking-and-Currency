@@ -83,13 +83,10 @@ local function onEnterFrame()
 	end
 end
 
-local function compareObjects(count1, count2)
-    return count1.value < count2.value
-end
-
 local function convertToCopper(e)
     if (e.element.name ~= "MenuDialog") then return end
     common.enterMenu()
+    common.removeCoinStacks()
 end
 
 local function convertBack(e)
@@ -141,15 +138,6 @@ local function onActivate(e)
         tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 25, playSound = false})
     elseif (e.target.baseObject == septimSilver100) then
         tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 100, playSound = false})
-    end
-end
-
-local function removeCoinStacks(e)
-    for _, itemStack in pairs(tes3.mobilePlayer.inventory) do
-        if ((string.find(itemStack.object.id, "GPBankSeptimGold_0") or string.find(itemStack.object.id, "GPBankSeptimGold_1") 
-        or string.find(itemStack.object.id, "GPBankSeptimSilver_0") or string.find(itemStack.object.id, "GPBankSeptimSilver_1") or (string.find(itemStack.object.id, "GPBankSeptimSilver_")) or (string.find(itemStack.object.id, "Dae_cursed_00"))) and itemStack.count > 0) then
-            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
-        end
     end
 end
 
@@ -269,7 +257,6 @@ local function initialized()
     event.register(tes3.event.uiActivated, convertToCopper)
     event.register(tes3.event.menuExit, convertBack)
     event.register(tes3.event.activate, onActivate)
-    event.register(tes3.event.menuEnter, removeCoinStacks)
 end
 
 event.register(tes3.event.initialized, initialized)
