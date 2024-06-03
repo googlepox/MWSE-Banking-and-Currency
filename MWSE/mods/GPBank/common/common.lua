@@ -363,7 +363,7 @@ function common.updateAccount()
     common.GPBankData.daysTilCompound = common.daysTilCompound
     if (common.daysTilCompound <= 0 and common.accountCreated) then
         local increase = common.compoundInterestAccount(common.accountBalance)
-        common.accountBalance = common.accountBalance + increase
+        common.accountBalance = increase
         common.GPBankData.accountBalance = common.accountBalance
         tes3.messageBox({message = "Your account has compounded interest.", showInDialog = false})
         tes3.mobilePlayer:exerciseSkill(24, (increase / (config.mercXPAccount * 10)))
@@ -581,8 +581,15 @@ function common.getInvestmentValueTotal()
 end
 
 function common.calcNewPrice(risk, merc)
+    local sign
     local luck = tes3.mobilePlayer.luck.current
-    local rand = math.random(-risk, risk) + (luck / 50) + 1
+    local roll = math.random(-risk, risk)
+    local rand = roll + (luck / 50) + 1
+    --if risk < 0 then
+       --return (risk * math.abs(rand / 15) + 1)^((common.euler * (rand - 1)) / ((luck / 5) * (merc / 2)) - 0.4)
+    --else
+        --return (risk * math.abs(rand / 15) + 1)^((common.euler * (rand - 1)) * ((luck / 400) * (merc / 800)) + 0.2)
+    --end
     return (risk * math.abs(rand / 15) + 1)^(((common.euler * (rand - (1))) / (600 / merc)) - (0.5 / merc))
 end
 
@@ -606,6 +613,7 @@ function common.updateInvestments()
         end
         commodity.change = commodity.currentPrice - commodity.lastPrice
 	end
+    local investChange = common.getTotalInvestmentChange()
 	common.GPBankData.allCommodities = common.allCommodities
 end
 

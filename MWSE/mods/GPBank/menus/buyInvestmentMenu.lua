@@ -48,7 +48,7 @@ function buyInvestmentMenu.confirmInvestmentChange()
                 commodity.sellPrice = commodity.currentPrice
                 if (commodity.sellPrice > commodity.buyPrice) then
                     local increase = commodity.sellPrice - commodity.buyPrice
-                    tes3.mobilePlayer:exerciseSkill(24, (increase / (config.mercXPInvest * 10)))
+                    tes3.mobilePlayer:exerciseSkill(24, (increase / (config.mercXPInvest * 100)))
                 end
                 tes3.messageBox({message = "You sold " .. math.abs(text) .. " shares of " .. name .. " at " .. price .. " septims each.", showInDialog = false})
                 common.fixCounts()
@@ -81,7 +81,7 @@ function buyInvestmentMenu.confirmInvestmentChange()
             end
         end
         if accountCharged then
-            tes3.messageBox({message = "Your account was charged " .. math.floor(text * price) .. " septims.", showInDialog = false})
+            tes3.messageBox({message = "Your account was charged " .. math.floor(accountCharge) .. " septims.", showInDialog = false})
             accountCharged = false
         end
         local menu = tes3ui.findMenu(common.GUI_ID_InvestmentMenuBuy):findChild("GPBankInput" .. name)

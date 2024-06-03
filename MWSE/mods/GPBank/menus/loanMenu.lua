@@ -56,7 +56,7 @@ function loanMenu.createLoanMenu()
         for _, activeLoan in pairs(common.activeLoans) do
             loanNpc = activeLoan.npc
             local tempID = "GPBankActiveLoan" .. activeLoan.npc
-            local activeLoanText = loanDetails:createLabel({id = tempID, text = "Loan from " .. activeLoan.npc .. "\n" .. "Principal - " .. activeLoan.principal .. "\nRate - "  .. string.format("%.4f", activeLoan.rate) .. "\nBalance Remaining - " .. string.format("%.0f", activeLoan.balance) .. "\nTime Remaining - " .. math.floor(activeLoan.period) .. " \n"})
+            local activeLoanText = loanDetails:createLabel({id = tempID, text = "Loan from " .. activeLoan.npc .. "\n" .. "Principal - " .. activeLoan.principal .. "\nRate - "  .. string.format("%.4f", activeLoan.rate) .. "\nBalance Remaining - " .. string.format("%.0f", activeLoan.balance) .. "\nTime Remaining - " .. string.format(math.floor(activeLoan.period)) .. " \n"})
             if (activeLoan.period < 5) then
                 activeLoanText.color = {0.610, 0.0122, 0.0122}
             else
