@@ -62,7 +62,6 @@ local function onItemAdded(e)
     if ((string.find(itemID, "GPBankSeptimGold_") or string.find(itemID, "GPBankSeptimSilver_") or (string.find(itemID, "GPBankSilver_"))) or (string.find(itemID, "GPBankGold_"))) then
         tes3ui.forcePlayerInventoryUpdate()
         tes3ui.updateInventoryTiles()
-        mwse.log("picked up")
     end
 end
 

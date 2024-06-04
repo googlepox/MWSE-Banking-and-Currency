@@ -880,8 +880,6 @@ end
 
 function common.removeCoinStacks()
     for _, itemStack in pairs(tes3.mobilePlayer.inventory) do
-        mwse.log("removing coin stacks")
-        mwse.log(itemStack.object.id)
         if (itemStack.object.id == "GPBankSeptimGold_005") then
             tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count * 5, playSound = false})
             tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
