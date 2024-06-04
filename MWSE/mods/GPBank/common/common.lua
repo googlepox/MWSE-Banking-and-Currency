@@ -200,6 +200,30 @@ local common = {
     commodities2 = {},
     commodities3 = {},
     commodities4 = {},
+    septimGold = nil,
+    septimGold001Cursed = nil,
+    septimGold005 = nil,
+    septimGold005Cursed = nil,
+    septimGold010 = nil,
+    septimGold025 = nil,
+    septimGold100 = nil,
+    septimSilver = nil,
+    septimSilver001Cursed = nil,
+    septimSilver005 = nil,
+    septimSilver005Cursed = nil,
+    septimSilver010 = nil,
+    septimSilver025 = nil,
+    septimSilver100 = nil,
+    septimCopper = nil,
+    septimPaper0005 = nil,
+    septimPaper0010 = nil,
+    septimPaper0020 = nil,
+    septimPaper0050 = nil,
+    septimPaper0100 = nil,
+    septimPaper0500 = nil,
+    septimPaper1000 = nil,
+    currentDay = nil,
+    bankers = {},
 
     GUI_ID_BankButton = tes3ui.registerID("MenuDialog_service_banking"),
     GUI_ID_DialogMenu = tes3ui.registerID("MenuDialog"),
@@ -856,8 +880,43 @@ end
 
 function common.removeCoinStacks()
     for _, itemStack in pairs(tes3.mobilePlayer.inventory) do
-        if ((string.find(itemStack.object.id, "GPBankSeptimGold_0") or string.find(itemStack.object.id, "GPBankSeptimGold_1") 
-        or string.find(itemStack.object.id, "GPBankSeptimSilver_0") or string.find(itemStack.object.id, "GPBankSeptimSilver_1") or (string.find(itemStack.object.id, "GPBankSeptimSilver_")) or (string.find(itemStack.object.id, "Dae_cursed_00"))) and itemStack.count > 0) then
+        mwse.log("removing coin stacks")
+        mwse.log(itemStack.object.id)
+        if (itemStack.object.id == "GPBankSeptimGold_005") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count * 5, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimGold_010") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count * 10, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimGold_025") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count * 25, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimGold_100") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count * 100, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankGold_Dae_cursed_001") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankGold_Dae_cursed_005") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimGold", count = itemStack.count * 5, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimSilver_005") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimSilver", count = itemStack.count * 5, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimSilver_010") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimSilver", count = itemStack.count * 10, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimSilver_025") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimSilver", count = itemStack.count * 25, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSeptimSilver_100") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimSilver", count = itemStack.count * 100, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSilver_Dae_cursed_001") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimSilver", count = itemStack.count * 100, playSound = false})
+            tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
+        elseif (itemStack.object.id == "GPBankSilver_Dae_cursed_005") then
+            tes3.addItem({reference = tes3.mobilePlayer, item = "GPBankSeptimSilver", count = itemStack.count * 5, playSound = false})
             tes3.removeItem({reference = tes3.mobilePlayer, item = itemStack.object, count = itemStack.count, playSound = false})
         end
     end

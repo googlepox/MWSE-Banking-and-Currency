@@ -220,7 +220,7 @@ local valueSettings = settings:createCategory("Value Settings")
 
 valueSettings:createSlider {
     label = "Gold Septim Value",
-    description = "Set the value of a gold septim.",
+    description = "Set the value of a gold septim. Requires game restart.",
     max = 5000,
     min = 1,
     step = 5,
@@ -233,7 +233,7 @@ valueSettings:createSlider {
 
 valueSettings:createSlider {
     label = "Silver Septim Value",
-    description = "Set the value of a silver septim.",
+    description = "Set the value of a silver septim. Requires game restart.",
     max = 1000,
     min = 1,
     step = 5,

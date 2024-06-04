@@ -8,32 +8,6 @@ local takeLoanMenu = require("GPBank.menus.takeLoanMenu")
 
 local OR = include("DOR.GPObjectReplacer")
 
-local septimGold
-local septimGold001Cursed
-local septimGold005
-local septimGold005Cursed
-local septimGold010
-local septimGold025
-local septimGold100
-local septimSilver
-local septimSilver001Cursed
-local septimSilver005
-local septimSilver005Cursed
-local septimSilver010
-local septimSilver025
-local septimSilver100
-local septimCopper
-local septimPaper0005
-local septimPaper0010
-local septimPaper0020
-local septimPaper0050
-local septimPaper0100
-local septimPaper0500
-local septimPaper1000
-local currency = {}
-local currentDay
-local bankers
-
 local function onBankButtonClick()
 	bankMenu.createBankMenu()
 end
@@ -59,7 +33,7 @@ local function updateBankButton()
 	local topics = menu:findChild(common.GUI_ID_DialogTopics):findChild(common.GUI_ID_ScrollPane)
 	local dialogDivider = menu:findChild(common.GUI_ID_DialogDivider)
 	local bankButton = menu:findChild(common.GUI_ID_BankButton)
-	for _, banker in pairs(bankers) do
+	for _, banker in pairs(common.bankers) do
         if (actor.reference.baseObject.id == banker or actor.reference.baseObject.class.id:find("Banker") or actor.reference.baseObject.id:find("banker_") or actor.reference.baseObject.class.id:find("T_Glb_Banker")) then
             if (not bankButton) then
                 bankButton = createBankButton(topics, true)
@@ -72,8 +46,8 @@ end
 
 local function onEnterFrame()
 	updateBankButton()
-	if currentDay ~= tes3.getGlobal("Day") then
-		currentDay = tes3.getGlobal("Day")
+	if common.currentDay ~= tes3.getGlobal("Day") then
+		common.currentDay = tes3.getGlobal("Day")
 		common.updateAccount()
         common.updateLoans()
         common.updateInvestments()
@@ -81,6 +55,22 @@ local function onEnterFrame()
 	if common.GPBankData.loanCrime == true and tes3.mobilePlayer.bounty == 0 then
 		common.GPBankData.loanCrime = false
 	end
+end
+
+local function onItemAdded(e)
+    local itemID = e.reference.id
+    if ((string.find(itemID, "GPBankSeptimGold_") or string.find(itemID, "GPBankSeptimSilver_") or (string.find(itemID, "GPBankSilver_"))) or (string.find(itemID, "GPBankGold_"))) then
+        tes3ui.forcePlayerInventoryUpdate()
+        tes3ui.updateInventoryTiles()
+        mwse.log("picked up")
+    end
+end
+
+local function onInventoryOpen(e)
+    if (e.menu.name ~= "MenuMap") then return end
+    tes3ui.forcePlayerInventoryUpdate()
+    tes3ui.updateInventoryTiles()
+    common.removeCoinStacks()
 end
 
 local function convertToCopper(e)
@@ -112,90 +102,61 @@ local function convertBack(e)
     end
 end
 
-local function onActivate(e)
-    if (e.activator ~= tes3.mobilePlayer) then return end
-    if (e.target.baseObject == septimGold001Cursed) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimGold, count = 1, playSound = false})
-    elseif (e.target.baseObject == septimGold005Cursed) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimGold, count = 5, playSound = false})
-    elseif (e.target.baseObject == septimGold005) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimGold, count = 5, playSound = false})
-    elseif (e.target.baseObject == septimGold010) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimGold, count = 10, playSound = false})
-    elseif (e.target.baseObject == septimGold025) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimGold, count = 25, playSound = false})
-    elseif (e.target.baseObject == septimGold100) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimGold, count = 100, playSound = false})
-    elseif (e.target.baseObject == septimSilver001Cursed) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 1, playSound = false})
-    elseif (e.target.baseObject == septimSilver005Cursed) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 5, playSound = false})
-    elseif (e.target.baseObject == septimSilver005) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 5, playSound = false})
-    elseif (e.target.baseObject == septimSilver010) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 10, playSound = false})
-    elseif (e.target.baseObject == septimSilver025) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 25, playSound = false})
-    elseif (e.target.baseObject == septimSilver100) then
-        tes3.addItem({reference = tes3.mobilePlayer, item = septimSilver, count = 100, playSound = false})
-    end
-end
-
 -- INIT
 
 local function initCoins()
-    septimGold = tes3.getObject("GPBankSeptimGold")
-    septimGold005 = tes3.getObject("GPBankSeptimGold_005")
-    septimGold010 = tes3.getObject("GPBankSeptimGold_010")
-    septimGold025 = tes3.getObject("GPBankSeptimGold_025")
-    septimGold100 = tes3.getObject("GPBankSeptimGold_100")
-    septimGold001Cursed = tes3.getObject("GPBankGold_Dae_cursed_001")
-    septimGold005Cursed = tes3.getObject("GPBankGold_Dae_cursed_005")
-    septimSilver = tes3.getObject("GPBankSeptimSilver")
-    septimSilver005 = tes3.getObject("GPBankSeptimGold_005")
-    septimSilver010 = tes3.getObject("GPBankSeptimGold_010")
-    septimSilver025 = tes3.getObject("GPBankSeptimGold_025")
-    septimSilver100 = tes3.getObject("GPBankSeptimGold_100")
-    septimSilver001Cursed = tes3.getObject("GPBankSilver_Dae_cursed_001")
-    septimSilver005Cursed = tes3.getObject("GPBankSilver_Dae_cursed_005")
-    septimCopper = tes3.getObject("Gold_001")
-    septimGold.weight = config.septimGoldWeight / 100
-    septimSilver.weight = config.septimSilverWeight / 100
-    septimGold.value = config.septimGoldValue
-    septimSilver.value = config.septimSilverValue
-    septimCopper.name = "Septim (Copper)"
-    septimPaper0005 = tes3.getObject("GPBankSeptimPaper0005")
-    septimPaper0010 = tes3.getObject("GPBankSeptimPaper0010")
-    septimPaper0020 = tes3.getObject("GPBankSeptimPaper0020")
-    septimPaper0050 = tes3.getObject("GPBankSeptimPaper0050")
-    septimPaper0100 = tes3.getObject("GPBankSeptimPaper0100")
-    septimPaper0500 = tes3.getObject("GPBankSeptimPaper0500")
-    septimPaper1000 = tes3.getObject("GPBankSeptimPaper1000")
+    common.septimGold = tes3.getObject("GPBankSeptimGold")
+    common.septimGold005 = tes3.getObject("GPBankSeptimGold_005")
+    common.septimGold010 = tes3.getObject("GPBankSeptimGold_010")
+    common.septimGold025 = tes3.getObject("GPBankSeptimGold_025")
+    common.septimGold100 = tes3.getObject("GPBankSeptimGold_100")
+    common.septimGold001Cursed = tes3.getObject("GPBankGold_Dae_cursed_001")
+    common.septimGold005Cursed = tes3.getObject("GPBankGold_Dae_cursed_005")
+    common.septimSilver = tes3.getObject("GPBankSeptimSilver")
+    common.septimSilver005 = tes3.getObject("GPBankSeptimSilver_005")
+    common.septimSilver010 = tes3.getObject("GPBankSeptimSilver_010")
+    common.septimSilver025 = tes3.getObject("GPBankSeptimSilver_025")
+    common.septimSilver100 = tes3.getObject("GPBankSeptimSilver_100")
+    common.septimSilver001Cursed = tes3.getObject("GPBankSilver_Dae_cursed_001")
+    common.septimSilver005Cursed = tes3.getObject("GPBankSilver_Dae_cursed_005")
+    common.septimCopper = tes3.getObject("Gold_001")
+    common.septimGold.weight = config.septimGoldWeight / 100
+    common.septimSilver.weight = config.septimSilverWeight / 100
+    common.septimGold.value = config.septimGoldValue
+    common.septimSilver.value = config.septimSilverValue
+    common.septimCopper.name = "Septim (Copper)"
+    common.septimPaper0005 = tes3.getObject("GPBankSeptimPaper0005")
+    common.septimPaper0010 = tes3.getObject("GPBankSeptimPaper0010")
+    common.septimPaper0020 = tes3.getObject("GPBankSeptimPaper0020")
+    common.septimPaper0050 = tes3.getObject("GPBankSeptimPaper0050")
+    common.septimPaper0100 = tes3.getObject("GPBankSeptimPaper0100")
+    common.septimPaper0500 = tes3.getObject("GPBankSeptimPaper0500")
+    common.septimPaper1000 = tes3.getObject("GPBankSeptimPaper1000")
     common.currency = {
-        septimPaper0005,
-        septimPaper0010,
-        septimPaper0020,
-        septimPaper0050,
-        septimPaper0100,
-        septimPaper0500,
-        septimPaper1000,
-        septimGold,
-        septimSilver
+        common.septimPaper0005,
+        common.septimPaper0010,
+        common.septimPaper0020,
+        common.septimPaper0050,
+        common.septimPaper0100,
+        common.septimPaper0500,
+        common.septimPaper1000,
+        common.septimGold,
+        common.septimSilver
     }
     common.currencies1 = {
-        septimPaper0005,
-        septimPaper0050,
-        septimPaper1000,
+        common.septimPaper0005,
+        common.septimPaper0050,
+        common.septimPaper1000,
     }
     common.currencies2 = {
-        septimPaper0010,
-        septimPaper0100,
-        septimSilver,
+        common.septimPaper0010,
+        common.septimPaper0100,
+        common.septimSilver,
     }
     common.currencies3 = {
-        septimPaper0020,
-        septimPaper0500,
-        septimGold,
+        common.septimPaper0020,
+        common.septimPaper0500,
+        common.septimGold,
     }
 end
 
@@ -228,8 +189,8 @@ local function initOnLoad()
         hides = common.allCommodities.hides,
         textiles = common.allCommodities.textiles,
     }
-    currentDay = tes3.getGlobal("Day")
-    bankers = {
+    common.currentDay = tes3.getGlobal("Day")
+    common.bankers = {
         "chargen class",
         "canctunian ponius"
     }
@@ -258,7 +219,8 @@ local function initialized()
     event.register(tes3.event.loaded, initOnLoad)
     event.register(tes3.event.uiActivated, convertToCopper)
     event.register(tes3.event.menuExit, convertBack)
-    event.register(tes3.event.activate, onActivate)
+    event.register(tes3.event.menuEnter, onInventoryOpen)
+    event.register(tes3.event.convertReferenceToItem, onItemAdded)
 end
 
 event.register(tes3.event.initialized, initialized)
