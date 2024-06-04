@@ -200,7 +200,9 @@ local function initCoins()
 end
 
 local function initOnLoad()
-    OR.loadORFile("GPBank._OR_GPBank")
+    if OR then
+        OR.loadORFile("GPBank._OR_GPBank")
+    end
     initCoins()
     common.commodities1 = {
         wickwheat = common.allCommodities.wickwheat,
