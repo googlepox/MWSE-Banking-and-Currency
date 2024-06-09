@@ -1,5 +1,5 @@
 local config  = require("gpbank.config")
-local modName = 'MWSE Currency';
+local modName = 'Wealth Beyond Measure';
 local template = mwse.mcm.createTemplate(modName)
 template:saveOnClose(modName, config)
 template:register()
@@ -10,7 +10,7 @@ local function createPage(label)
         noScroll = false,
     }
     page.sidebar:createInfo {
-        text = "MWSE Currency \n\n by GOOGLEPOX \n\n This mod adds various new denominations of currency, including copper, silver, gold, and paper septims. \n\n Use this MCM to tweak the values and weights to your liking."
+        text = "Wealth Beyond Measure \n\n by GOOGLEPOX \n\n This mod adds various new denominations of currency, including copper, silver, gold, and paper septims. \n\n Use this MCM to tweak the values and weights to your liking."
     }
     return page
 end
@@ -211,10 +211,6 @@ investmentSettings:createSlider {
 
 settings = createPage("Currency Settings")
 
--- Global Settings
-
-local globalSettings = settings:createCategory("Global Settings")
-
 -- Value Settings
 local valueSettings = settings:createCategory("Value Settings")
 
@@ -285,3 +281,12 @@ weightSettings:createSlider {
         table = config
     }
 }
+
+-- Global Settings
+settings = createPage("Global Settings")
+local globalSettings = settings:createCategory("Global Settings")
+globalSettings:createYesNoButton({
+    label = "Add banking services to Pawnbrokers?",
+    defaultSetting = true,
+    variable = mwse.mcm:createTableVariable({ id = "enablePawnbrokers", table = config }),
+})

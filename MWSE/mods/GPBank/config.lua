@@ -17,13 +17,14 @@ local defaultConfig = {
     maxInvestmentMercMult = 1,
     mercXPInvest = 30,
 
-	septimGoldWeight = 5,
+	septimGoldWeight = 50,
     septimSilverWeight = 25,
     septimGoldValue = 100,
     septimSilverValue = 25,
-    septimPaperWeight = 1,
+
+    enablePawnbrokers = true,
 }
 
-local mwseConfig = mwse.loadConfig("MWSE Currency", defaultConfig)
+local mwseConfig = mwse.loadConfig("Wealth Beyond Measure", defaultConfig)
 
 return mwseConfig;

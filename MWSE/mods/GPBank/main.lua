@@ -33,10 +33,17 @@ local function updateBankButton()
 	local topics = menu:findChild(common.GUI_ID_DialogTopics):findChild(common.GUI_ID_ScrollPane)
 	local dialogDivider = menu:findChild(common.GUI_ID_DialogDivider)
 	local bankButton = menu:findChild(common.GUI_ID_BankButton)
+    local addToPawnbrokers = (actor.reference.baseObject.class == "Pawnbroker") and (config.enablePawnbrokers == true)
 	for _, banker in pairs(common.bankers) do
-        if (actor.reference.baseObject.id == banker or actor.reference.baseObject.class.id:find("Banker") or actor.reference.baseObject.id:find("banker_") or actor.reference.baseObject.class.id:find("T_Glb_Banker")) then
+        if (actor.reference.baseObject.id == banker or actor.reference.baseObject.class.id:find("Banker") or actor.reference.baseObject.id:find("banker_") or actor.reference.baseObject.class.id:find("T_Glb_Banker") or addToPawnbrokers) then
             if (not bankButton) then
                 bankButton = createBankButton(topics, true)
+                topics:reorderChildren(dialogDivider, bankButton, 1)
+                menu:updateLayout()
+            else
+                if not bankButton.visible then
+                    bankButton.visible = true
+                end
                 topics:reorderChildren(dialogDivider, bankButton, 1)
                 menu:updateLayout()
             end
@@ -167,31 +174,44 @@ local function initOnLoad()
     common.commodities1 = {
         wickwheat = common.allCommodities.wickwheat,
         saltrice = common.allCommodities.saltrice,
-        fish = common.allCommodities.fish,
-        produce = common.allCommodities.produce,
+        guars = common.allCommodities.guars,
     }
     common.commodities2 = {
-        guars = common.allCommodities.guars,
         kwama = common.allCommodities.kwama,
-        iron = common.allCommodities.iron,
-        steel = common.allCommodities.steel
-    }
-    common.commodities3 = {
         silver = common.allCommodities.silver,
         gold = common.allCommodities.gold,
-        ebony = common.allCommodities.ebony,
-        gems = common.allCommodities.gems
     }
-    common.commodities4 = {
+    common.commodities3 = {
         spirits = common.allCommodities.spirits,
         glass = common.allCommodities.glass,
-        hides = common.allCommodities.hides,
+        fish = common.allCommodities.fish,
         textiles = common.allCommodities.textiles,
+    }
+    common.commodities4 = {
+        produce = common.allCommodities.produce,
+        iron = common.allCommodities.iron,
+        steel = common.allCommodities.steel,
+    }
+    common.commodities5 = {
+        ebony = common.allCommodities.ebony,
+        gems = common.allCommodities.gems,
+        hides = common.allCommodities.hides,
+    }
+    common.commodities6 = {
+        
+    }
+    common.commodities7 = {
+        
+    }
+    common.commodities8 = {
+        
     }
     common.currentDay = tes3.getGlobal("Day")
     common.bankers = {
         "chargen class",
-        "canctunian ponius"
+        "Canctunian Ponius",
+        "beldrose dralor",
+        "baren alen",
     }
     tes3.player.data.GPBank = tes3.player.data.GPBank or {}
     common.GPBankData = tes3.player.data.GPBank
@@ -210,7 +230,10 @@ local function initOnLoad()
     common.initCounts()
     common.updateCounts()
     common.updateCommodityLists()
-    event.register(tes3.event.enterFrame, onEnterFrame)
+    local isRegistered = event.isRegistered(tes3.event.enterFrame, onEnterFrame)
+    if (not isRegistered) then
+        event.register(tes3.event.enterFrame, onEnterFrame) 
+    end
     print("[MWSE Currency] MWSE Currency Initialized")
 end
 
