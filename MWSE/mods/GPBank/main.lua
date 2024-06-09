@@ -190,16 +190,17 @@ local function initOnLoad()
     common.commodities3 = {
         spirits = common.allCommodities.spirits,
         glass = common.allCommodities.glass,
+        gold = common.allCommodities.gold,
     }
     common.commodities4 = {
         produce = common.allCommodities.produce,
         iron = common.allCommodities.iron,
-        gold = common.allCommodities.gold,
         
     }
     common.commodities5 = {
         ebony = common.allCommodities.ebony,
         gems = common.allCommodities.gems,
+        gold = common.allCommodities.hides,
         
     }
     common.commodities6 = {
