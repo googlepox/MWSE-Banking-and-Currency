@@ -21,6 +21,7 @@ local defaultConfig = {
     septimSilverWeight = 25,
     septimGoldValue = 100,
     septimSilverValue = 25,
+    septimPaperWeight = 1,
 
     enablePawnbrokers = true,
 }

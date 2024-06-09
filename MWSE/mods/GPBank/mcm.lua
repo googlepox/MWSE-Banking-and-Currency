@@ -243,44 +243,26 @@ valueSettings:createSlider {
 -- Weight Settings
 local weightSettings = settings:createCategory("Weight Settings")
 
-weightSettings:createSlider {
-    label = "Gold Septim Weight",
-    description = "Set the weight of a gold septim. Divided by 100.",
-    max = 100,
-    min = 0,
-    step = 1,
-    jump = 1,
-    variable = mwse.mcm:createTableVariable {
-        id = "septimGoldWeight",
-        table = config
-    }
-}
+valueSettings:createTextField({
+    label = "Gold Weight",
+    description = "The weight per Gold coin. Number will be divided by 100.",
+    numbersOnly = true,
+    variable = mwse.mcm:createTableVariable{id = "septimGoldWeight", table = config },
+})
 
-weightSettings:createSlider {
-    label = "Silver Septim Weight",
-    description = "Set the weight of a silver septim. Divided by 100.",
-    max = 100,
-    min = 0,
-    step = 1,
-    jump = 1,
-    variable = mwse.mcm:createTableVariable {
-        id = "septimSilverWeight",
-        table = config
-    }
-}
+valueSettings:createTextField({
+    label = "Silver Weight",
+    description = "The weight per Silver coin. Number will be divided by 100.",
+    numbersOnly = true,
+    variable = mwse.mcm:createTableVariable{id = "septimSilverWeight", table = config },
+})
 
-weightSettings:createSlider {
-    label = "Paper Septim Weight",
-    description = "Set the weight of a paper septim. Divided by 100.",
-    max = 100,
-    min = 0,
-    step = 1,
-    jump = 1,
-    variable = mwse.mcm:createTableVariable {
-        id = "septimSilverWeight",
-        table = config
-    }
-}
+valueSettings:createTextField({
+    label = "Paper Weight",
+    description = "The weight per Paper bill. Number will be divided by 100.",
+    numbersOnly = true,
+    variable = mwse.mcm:createTableVariable{id = "septimPaperWeight", table = config },
+})
 
 -- Global Settings
 settings = createPage("Global Settings")

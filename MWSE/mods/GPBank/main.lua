@@ -33,7 +33,7 @@ local function updateBankButton()
 	local topics = menu:findChild(common.GUI_ID_DialogTopics):findChild(common.GUI_ID_ScrollPane)
 	local dialogDivider = menu:findChild(common.GUI_ID_DialogDivider)
 	local bankButton = menu:findChild(common.GUI_ID_BankButton)
-    local addToPawnbrokers = (actor.reference.baseObject.class == "Pawnbroker") and (config.enablePawnbrokers == true)
+    local addToPawnbrokers = (actor.reference.baseObject.class.id == "Pawnbroker") and (config.enablePawnbrokers == true)
 	for _, banker in pairs(common.bankers) do
         if (actor.reference.baseObject.id == banker or actor.reference.baseObject.class.id:find("Banker") or actor.reference.baseObject.id:find("banker_") or actor.reference.baseObject.class.id:find("T_Glb_Banker") or addToPawnbrokers) then
             if (not bankButton) then
@@ -138,6 +138,13 @@ local function initCoins()
     common.septimPaper0100 = tes3.getObject("GPBankSeptimPaper0100")
     common.septimPaper0500 = tes3.getObject("GPBankSeptimPaper0500")
     common.septimPaper1000 = tes3.getObject("GPBankSeptimPaper1000")
+    common.septimPaper0005.weight = config.septimPaperWeight / 100
+    common.septimPaper0010.weight = config.septimPaperWeight / 100
+    common.septimPaper0020.weight = config.septimPaperWeight / 100
+    common.septimPaper0050.weight = config.septimPaperWeight / 100
+    common.septimPaper0100.weight = config.septimPaperWeight / 100
+    common.septimPaper0500.weight = config.septimPaperWeight / 100
+    common.septimPaper1000.weight = config.septimPaperWeight / 100
     common.currency = {
         common.septimPaper0005,
         common.septimPaper0010,
@@ -174,37 +181,37 @@ local function initOnLoad()
     common.commodities1 = {
         wickwheat = common.allCommodities.wickwheat,
         saltrice = common.allCommodities.saltrice,
-        guars = common.allCommodities.guars,
+        
     }
     common.commodities2 = {
         kwama = common.allCommodities.kwama,
         silver = common.allCommodities.silver,
-        gold = common.allCommodities.gold,
     }
     common.commodities3 = {
         spirits = common.allCommodities.spirits,
         glass = common.allCommodities.glass,
-        fish = common.allCommodities.fish,
-        textiles = common.allCommodities.textiles,
     }
     common.commodities4 = {
         produce = common.allCommodities.produce,
         iron = common.allCommodities.iron,
-        steel = common.allCommodities.steel,
+        gold = common.allCommodities.gold,
+        
     }
     common.commodities5 = {
         ebony = common.allCommodities.ebony,
         gems = common.allCommodities.gems,
-        hides = common.allCommodities.hides,
+        
     }
     common.commodities6 = {
-        
+        textiles = common.allCommodities.textiles,
+        guars = common.allCommodities.guars,
     }
     common.commodities7 = {
-        
+        steel = common.allCommodities.steel,
+        fish = common.allCommodities.fish,
     }
     common.commodities8 = {
-        
+
     }
     common.currentDay = tes3.getGlobal("Day")
     common.bankers = {

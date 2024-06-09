@@ -489,6 +489,136 @@ function buyInvestmentMenu.createBuyInvestmentMenu(e)
         plusButton:register("mouseClick", buyInvestmentMenu.increaseInvestment)
     end
 
+    local commoditiesBlock6 = commoditiesBlock:createBlock()
+    commoditiesBlock6.autoWidth = true
+    commoditiesBlock6.autoHeight = true
+    commoditiesBlock6.flowDirection = "top_to_bottom"
+    commoditiesBlock6.wrapText = true
+    commoditiesBlock6.childAlignX = 0.5
+    commoditiesBlock6.justifyText = "center"
+    commoditiesBlock6.borderAllSides = 10
+
+    for _, commodity in pairs(common.commodities6) do
+        local change = string.format("%.0f", commodity.currentPrice - commodity.lastPrice)
+        local commodityLabel = commoditiesBlock6:createLabel({text = "\n" .. commodity.name})
+        commodityLabel.wrapText = true
+        commodityLabel.autoWidth = true
+        commodityLabel.autoHeight = true
+        commodityLabel.borderLeft = 5
+        commodityLabel.borderRight = 3
+        commodityLabel.color = {0.870, 0.659, 0.0783}
+
+        local formattedPrice = string.format("%.0f", commodity.currentPrice)
+        commodityLabel = commoditiesBlock6:createLabel({id = "GPBankCommodity" .. commodity.name, text = "Volatility: " .. commodity.volatility .. "\n Price: " .. formattedPrice .. "\n Owned: " .. commodity.owned})
+        commodityLabel.justifyText = "center"
+        commodityLabel.wrapText = true
+        commodityLabel.autoWidth = true
+        commodityLabel.autoHeight = true
+        commodityLabel.borderLeft = 5
+        commodityLabel.borderRight = 3
+        commodityLabel.color = {0.875, 0.788, 0.624}
+
+        commodityLabel = commoditiesBlock6:createLabel({text = "Change: " .. string.format("%.0f", commodity.change)})
+        if (commodity.change > 0) then
+            commodityLabel.color = {0.103, 0.670, 0.0938}
+        elseif (commodity.change < 0) then
+            commodityLabel.color = {0.610, 0.0122, 0.0122}
+        else
+            commodityLabel.color = {0.875, 0.788, 0.624}
+        end
+        commodityLabel.justifyText = "center"
+        commodityLabel.wrapText = true
+        commodityLabel.autoWidth = true
+        commodityLabel.autoHeight = true
+        commodityLabel.borderLeft = 5
+        commodityLabel.borderRight = 3
+
+        local commoditiesTradeBlock = commoditiesBlock6:createBlock()
+        commoditiesTradeBlock.autoWidth = true
+        commoditiesTradeBlock.autoHeight = true
+        commoditiesTradeBlock.flowDirection = "left_to_right"
+        commoditiesTradeBlock.wrapText = true
+        commoditiesTradeBlock.childAlignX = 0.5
+        commoditiesTradeBlock.justifyText = "center"
+        commoditiesTradeBlock.borderAllSides = 1
+
+        local minusButton = commoditiesTradeBlock:createButton({id = common.GUI_ID_InvestmentMenuDecreaseButton .. commodity.name, text = "-"})
+        minusButton:register("mouseClick", buyInvestmentMenu.decreaseInvestment)
+
+        local commoditiesTextInput = commoditiesTradeBlock:createTextInput({id = "GPBankInput" .. commodity.name, text = 0, placeholderText = 0, numeric = true, autoFocus = false})
+        commoditiesTextInput.autoHeight = true
+        commoditiesTextInput.autoWidth = true
+        commoditiesTextInput.color = {0.875, 0.788, 0.624}
+
+        local plusButton = commoditiesTradeBlock:createButton({id = common.GUI_ID_InvestmentMenuIncreaseButton .. commodity.name, text = "+"})
+        plusButton:register("mouseClick", buyInvestmentMenu.increaseInvestment)
+    end
+
+    local commoditiesBlock7 = commoditiesBlock:createBlock()
+    commoditiesBlock7.autoWidth = true
+    commoditiesBlock7.autoHeight = true
+    commoditiesBlock7.flowDirection = "top_to_bottom"
+    commoditiesBlock7.wrapText = true
+    commoditiesBlock7.childAlignX = 0.5
+    commoditiesBlock7.justifyText = "center"
+    commoditiesBlock7.borderAllSides = 10
+
+    for _, commodity in pairs(common.commodities7) do
+        local change = string.format("%.0f", commodity.currentPrice - commodity.lastPrice)
+        local commodityLabel = commoditiesBlock7:createLabel({text = "\n" .. commodity.name})
+        commodityLabel.wrapText = true
+        commodityLabel.autoWidth = true
+        commodityLabel.autoHeight = true
+        commodityLabel.borderLeft = 5
+        commodityLabel.borderRight = 3
+        commodityLabel.color = {0.870, 0.659, 0.0783}
+
+        local formattedPrice = string.format("%.0f", commodity.currentPrice)
+        commodityLabel = commoditiesBlock7:createLabel({id = "GPBankCommodity" .. commodity.name, text = "Volatility: " .. commodity.volatility .. "\n Price: " .. formattedPrice .. "\n Owned: " .. commodity.owned})
+        commodityLabel.justifyText = "center"
+        commodityLabel.wrapText = true
+        commodityLabel.autoWidth = true
+        commodityLabel.autoHeight = true
+        commodityLabel.borderLeft = 5
+        commodityLabel.borderRight = 3
+        commodityLabel.color = {0.875, 0.788, 0.624}
+
+        commodityLabel = commoditiesBlock7:createLabel({text = "Change: " .. string.format("%.0f", commodity.change)})
+        if (commodity.change > 0) then
+            commodityLabel.color = {0.103, 0.670, 0.0938}
+        elseif (commodity.change < 0) then
+            commodityLabel.color = {0.610, 0.0122, 0.0122}
+        else
+            commodityLabel.color = {0.875, 0.788, 0.624}
+        end
+        commodityLabel.justifyText = "center"
+        commodityLabel.wrapText = true
+        commodityLabel.autoWidth = true
+        commodityLabel.autoHeight = true
+        commodityLabel.borderLeft = 5
+        commodityLabel.borderRight = 3
+
+        local commoditiesTradeBlock = commoditiesBlock7:createBlock()
+        commoditiesTradeBlock.autoWidth = true
+        commoditiesTradeBlock.autoHeight = true
+        commoditiesTradeBlock.flowDirection = "left_to_right"
+        commoditiesTradeBlock.wrapText = true
+        commoditiesTradeBlock.childAlignX = 0.5
+        commoditiesTradeBlock.justifyText = "center"
+        commoditiesTradeBlock.borderAllSides = 1
+
+        local minusButton = commoditiesTradeBlock:createButton({id = common.GUI_ID_InvestmentMenuDecreaseButton .. commodity.name, text = "-"})
+        minusButton:register("mouseClick", buyInvestmentMenu.decreaseInvestment)
+
+        local commoditiesTextInput = commoditiesTradeBlock:createTextInput({id = "GPBankInput" .. commodity.name, text = 0, placeholderText = 0, numeric = true, autoFocus = false})
+        commoditiesTextInput.autoHeight = true
+        commoditiesTextInput.autoWidth = true
+        commoditiesTextInput.color = {0.875, 0.788, 0.624}
+
+        local plusButton = commoditiesTradeBlock:createButton({id = common.GUI_ID_InvestmentMenuIncreaseButton .. commodity.name, text = "+"})
+        plusButton:register("mouseClick", buyInvestmentMenu.increaseInvestment)
+    end
+
     -- BUTTONS
 
 	local block = menu:createBlock()
