@@ -696,6 +696,36 @@ function common.updateCommodityLists()
             end
         end
     end
+    for _, commodity in pairs(common.commodities5) do
+        for _, allCommodity in pairs(common.allCommodities) do
+            if (commodity.name == allCommodity.name) then
+                commodity.currentPrice = allCommodity.currentPrice
+                commodity.lastPrice = allCommodity.lastPrice
+                commodity.change = allCommodity.change
+                commodity.owned = allCommodity.owned
+            end
+        end
+    end
+    for _, commodity in pairs(common.commodities6) do
+        for _, allCommodity in pairs(common.allCommodities) do
+            if (commodity.name == allCommodity.name) then
+                commodity.currentPrice = allCommodity.currentPrice
+                commodity.lastPrice = allCommodity.lastPrice
+                commodity.change = allCommodity.change
+                commodity.owned = allCommodity.owned
+            end
+        end
+    end
+    for _, commodity in pairs(common.commodities7) do
+        for _, allCommodity in pairs(common.allCommodities) do
+            if (commodity.name == allCommodity.name) then
+                commodity.currentPrice = allCommodity.currentPrice
+                commodity.lastPrice = allCommodity.lastPrice
+                commodity.change = allCommodity.change
+                commodity.owned = allCommodity.owned
+            end
+        end
+    end
 end
 
 -- CURRENCY

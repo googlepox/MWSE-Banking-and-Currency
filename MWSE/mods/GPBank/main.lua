@@ -53,11 +53,16 @@ end
 
 local function onEnterFrame()
 	updateBankButton()
-	if common.currentDay ~= tes3.getGlobal("Day") then
-		common.currentDay = tes3.getGlobal("Day")
-		common.updateAccount()
-        common.updateLoans()
-        common.updateInvestments()
+    local newDay = tes3.getGlobal("Day")
+	if common.currentDay ~= newDay then
+        local dayDiff = newDay - common.currentDay
+		common.currentDay = newDay
+        while dayDiff > 0 do
+            common.updateAccount()
+            common.updateLoans()
+            common.updateInvestments()
+            dayDiff = dayDiff - 1
+        end
 	end
 	if common.GPBankData.loanCrime == true and tes3.mobilePlayer.bounty == 0 then
 		common.GPBankData.loanCrime = false
