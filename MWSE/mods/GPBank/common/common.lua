@@ -655,6 +655,15 @@ function common.getTotalInvestmentChange()
     return totalChange
 end
 
+function common.resetCommodityPrices()
+    for _, commodity in pairs(common.allCommodities) do
+        commodity.currentPrice = commodity.startingPrice
+        commodity.lastPrice = commodity.startingPrice
+        commodity.change = 0
+    end
+    common.updateCommodityLists()
+end
+
 function common.updateCommodityLists()
     for _, commodity in pairs(common.commodities1) do
         for _, allCommodity in pairs(common.allCommodities) do

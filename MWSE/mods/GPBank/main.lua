@@ -111,6 +111,10 @@ local function convertBack(e)
         common.totalCopper = tes3.getPlayerGold()
         common.converted = false;
     end
+    if (config.resetSharePrices) then
+        common.resetCommodityPrices()
+        config.resetSharePrices = false
+    end
 end
 
 -- INIT

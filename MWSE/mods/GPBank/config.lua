@@ -24,6 +24,7 @@ local defaultConfig = {
     septimPaperWeight = 1,
 
     enablePawnbrokers = true,
+    resetSharePrices = false,
 }
 
 local mwseConfig = mwse.loadConfig("Wealth Beyond Measure", defaultConfig)

@@ -265,10 +265,18 @@ valueSettings:createTextField({
 })
 
 -- Global Settings
+
 settings = createPage("Global Settings")
 local globalSettings = settings:createCategory("Global Settings")
+
 globalSettings:createYesNoButton({
-    label = "Add banking services to Pawnbrokers?",
+    label = "Add Banking Services to Pawnbrokers",
     defaultSetting = true,
     variable = mwse.mcm:createTableVariable({ id = "enablePawnbrokers", table = config }),
+})
+
+globalSettings:createYesNoButton({
+    label = "Reset Share Prices",
+    defaultSetting = false,
+    variable = mwse.mcm:createTableVariable({ id = "resetSharePrices", table = config }),
 })
