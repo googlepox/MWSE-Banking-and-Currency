@@ -25,6 +25,7 @@ local defaultConfig = {
 
     enablePawnbrokers = true,
     resetSharePrices = false,
+    resetShareTimer = 14,
 }
 
 local mwseConfig = mwse.loadConfig("Wealth Beyond Measure", defaultConfig)

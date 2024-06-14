@@ -240,6 +240,8 @@ local function initOnLoad()
     common.accountCreated = common.GPBankData.accountCreated
     if common.GPBankData.daysTilCompound == nil then common.GPBankData.daysTilCompound = config.interestPeriodAccount end
     common.daysTilCompound = common.GPBankData.daysTilCompound
+    if common.GPBankData.daysTilReset == nil then common.GPBankData.daysTilReset = config.resetShareTimer end
+    common.daysTilReset = common.GPBankData.daysTilReset
     if common.GPBankData.allCommodities == nil then common.GPBankData.allCommodities = common.allCommodities end
     common.allCommodities = common.GPBankData.allCommodities
     common.activeLoanMax = common.getMaxNumLoans()

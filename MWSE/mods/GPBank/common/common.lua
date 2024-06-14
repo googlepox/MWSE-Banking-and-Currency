@@ -17,6 +17,7 @@ local common = {
     accountBalance = 0,
     daysTilCompound = 0,
     activeLoanMax = 0,
+    daysTilReset = 0,
     counts = {},
     allCommodities = {
         wickwheat = {
@@ -643,6 +644,13 @@ function common.updateInvestments()
 	end
     local investChange = common.getTotalInvestmentChange()
 	common.GPBankData.allCommodities = common.allCommodities
+    common.daysTilReset = common.daysTilReset - 1
+    common.GPBankData.daysTilReset = common.daysTilReset
+    if (config.resetShareTimer ~= 0 and (common.daysTilReset <= 0)) then
+        common.resetCommodityPrices()
+        common.GPBankData.daysTilReset = config.resetShareTimer
+        common.daysTilReset = common.GPBankData.daysTilReset
+    end
 end
 
 function common.getTotalInvestmentChange()

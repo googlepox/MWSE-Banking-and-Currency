@@ -271,12 +271,27 @@ local globalSettings = settings:createCategory("Global Settings")
 
 globalSettings:createYesNoButton({
     label = "Add Banking Services to Pawnbrokers",
+    description = "All Pawnbrokers in the game (mods included) will now offer Imperial Banking services.",
     defaultSetting = true,
     variable = mwse.mcm:createTableVariable({ id = "enablePawnbrokers", table = config }),
 })
 
 globalSettings:createYesNoButton({
     label = "Reset Share Prices",
+    description = "Reset Share Prices",
     defaultSetting = false,
     variable = mwse.mcm:createTableVariable({ id = "resetSharePrices", table = config }),
 })
+
+globalSettings:createSlider {
+    label = "Share Reset Period",
+    description = "Time before all investment shares reset to their initial price. Set to 0 to disable.",
+    max = 100,
+    min = 0,
+    step = 1,
+    jump = 1,
+    variable = mwse.mcm:createTableVariable {
+        id = "resetShareTimer",
+        table = config
+    }
+}
